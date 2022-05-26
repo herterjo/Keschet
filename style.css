@@ -1,0 +1,35 @@
+#playingField td{
+	padding: 45px;
+}
+
+:root {
+	--p-0-color: indianred;
+	--p-1-color: lightblue;
+}
+
+.border td{
+	border: black 1px solid;
+	border-collapse: collapse;
+}
+
+.background-p-0 {
+	background-color: var(--p-0-color);
+	padding: 10px !important;
+}
+
+.background-p-1 {
+	background-color: var(--p-1-color);
+	padding: 10px !important;
+}
+
+.display-flex {
+	display: flex;
+}
+
+.home-field {
+	padding: 10px;
+}
+
+td {
+	text-align: center;
+}
