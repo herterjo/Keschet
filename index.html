@@ -5,13 +5,14 @@
 <script src="main.js"></script>
 <script src="helper.js"></script>
 <script src="placing.js"></script>
+<script src="init.js"></script>
+<script src="display.js"></script>
+<script src="drawing.js"></script>
 </head>
 <body>
 <h1>Keschet</h1>
-<h2>Player: <span id="player">1</span></h2>
-<h3>Turn: <span id="turn">1</span></h3>
 <div class="display-flex">
-<table>
+<table class="figures-p-0-container">
 	<tbody class="player-figures border figures-p-0" id="figuresP0">
 	</tbody>
 </table>
@@ -21,10 +22,13 @@
 	</tbody>
 </table>
 
-<table>
+<table class="figures-p-1-container">
 	<tbody class="player-figures border figures-p-1" id="figuresP1">
 	</tbody>
 </table>
 </div>
+<h2>Player: <span id="player">1</span></h2>
+<h3>Turn: <span id="turn">1</span></h3>
+<h3>Selected unit: <span id="selectedUnit"></span></h3>
 </body>
 </html> 

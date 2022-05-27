@@ -1,3 +1,4 @@
+var isInPlacingPhase = true;
 function selectStartingUnit(id) {
 	var clickedUnit = getUnitByName(id);
 	if (!clickedUnit || clickedUnit.pos) {
@@ -7,7 +8,7 @@ function selectStartingUnit(id) {
 		return;
 	}
 	selectedUnit = clickedUnit;
-    document.getElementById(id).classList.remove("background-" + getPlayerColor(selectedUnit.controllingPlayer));
+	renderCycle();
 	currentClickFunc = placeStartingUnit;
 }
 
@@ -26,9 +27,11 @@ function placeStartingUnit(id) {
     selectedUnit = null;
 	setNextPlayer();
 	addTurn();
+	renderCycle();
     var allHavePos = units.every(function (u) {return u.pos;});
     if (allHavePos) {
-        
+        isInPlacingPhase = false;
+		currentClickFunc = function() {};
     } else {
         currentClickFunc = selectStartingUnit;
     }
@@ -48,23 +51,6 @@ function canPlaceStartingUnit(id) {
 }
 
 function placeUnit(unit, id) {
-    removeUnit(unit);
-
 	var pos = getPos(id);
 	unit.pos = pos;
-	var htmlId = getId(id);
-	document.getElementById(htmlId).classList.add("background-" + getPlayerColor(unit.controllingPlayer));
-	document.getElementById(htmlId).innerText = unit.type;
-}
-
-function removeUnit(unit) {
-    if (!unit.pos) {
-        return;
-    }
-    var oldId = getId(unit.pos);
-	var oldElement = document.getElementById(oldId);
-	if (oldElement) {
-		oldElement.classList.remove("background-" + getPlayerColor(unit.controllingPlayer));
-		oldElement.innerText = null;
-	}
 }

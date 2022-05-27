@@ -4,6 +4,7 @@ var turnNumber = 0;
 
 window.onload = function() {
 	initField();
+	renderCycle();
 	currentClickFunc = selectStartingUnit;
 };
 

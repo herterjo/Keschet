@@ -3,4 +3,9 @@ Keschet rules implemented, from fantasy book series Raven's Shadow (Anthony Ryan
 <br>
 I did not read the books, I implemented the game for a friend
 <br>
-Short overwview of rules: http://ashotoforangejuice.com/blog/?p=171
+Short overview of rules: http://ashotoforangejuice.com/blog/?p=171
+<br>
+<br>
+Ar the moment just as a local game to play in your browser on the same device
+<br>
+I tried to not use any third party libraries and do everything in plain HTML, CSS and JavaScript
