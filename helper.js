@@ -65,7 +65,10 @@ function getPos(id) {
         return id;
     }
 	var positions = id.split(idDivider);
-	return {x: positions[0], y: positions[1]};
+	return {
+		x: Number.parseInt(positions[0]),
+		y: Number.parseInt(positions[1])
+	};
 }
 
 function getUnit(name, type, controllingPlayer) {

@@ -58,10 +58,6 @@ function renderCycle() {
         document.getElementById("selectedUnit").innerText = selectedUnit ? selectedUnit.type : "";
     }
 
-    function getPlayerColor(player) {
-        return "p-" + player;
-    }
-
     function renderSelectedPlacings() {
         document.querySelectorAll("#playingField td").forEach(function(cell) {
             var id = cell.id;
@@ -71,13 +67,41 @@ function renderCycle() {
         });
     }
 
+    function renderUnselectButton() {
+        var btn = document.getElementById("unselectUnit");
+        for (var j = 0; j < playerCount; j++) {
+            var playerColor =  getPlayerColor(j);
+            btn.classList.remove("background-" + playerColor);
+        }
+        if (selectedUnit) {
+            btn.classList.remove("hidden");
+            var playerColor =  getPlayerColor(currentPlayer);
+            btn.classList.add("background-" + playerColor);
+        } else {
+            btn.classList.add("hidden");
+        }
+    }
+
     emptyUnitFields();
     renderUnits();
     renderStatistics();
+    renderUnselectButton();
     if (selectedUnit && isInPlacingPhase) {
         renderStartPlacings();
     }
     if (selectedUnit && !isInPlacingPhase) {
         renderSelectedPlacings();
     }
+}
+
+function setWinningMessage(playerId) {
+    var message = "Player " + (playerId + 1) + " has won";
+    var messageElem = document.getElementById("winningMessage");
+    messageElem.innerText = message
+    messageElem.classList.add("background-" + getPlayerColor(playerId));
+    alert(message);
+}
+
+function getPlayerColor(player) {
+    return "p-" + player;
 }

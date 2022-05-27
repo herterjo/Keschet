@@ -1,5 +1,6 @@
 var placingIds = [];
 var canBeTakenIds = [];
+var gameOver = false;
 
 function getPossibleMoves(unit) {
     const emperorDistance = 4;
@@ -9,7 +10,7 @@ function getPossibleMoves(unit) {
     const thiefDistance = 1;
     const spearmanDistance = 2;
     const lancerDistance = 10;
-    const merchantDistance = 10;
+    const merchantDistance = 1;
     const scholarProtectionDistance = 1;
     const merchantToEmperorDistance = 1;
     function isPosOnField(pos) {
@@ -81,6 +82,7 @@ function getPossibleMoves(unit) {
             var occupyingUnit = getUnitByPlace(id);
             if (!occupyingUnit) {
                 standardMoves.push({x: x, y: y});
+                continue;
             }
             if (occupyingUnit.controllingPlayer === controllingPlayer) {
                 break;
@@ -128,7 +130,7 @@ function getPossibleMoves(unit) {
                 && u.controllingPlayer === unit.controllingPlayer
                 && u.pos;
         });
-        if (!emperor) {
+        if (!emperor || !emperor.pos) {
             return ret;
         }
         var adjacentToEmperor = getStandardMoves(emperor, merchantToEmperorDistance, true, true, true);
@@ -138,17 +140,18 @@ function getPossibleMoves(unit) {
         adjacentToEmperor.taking = adjacentToEmperor.taking.filter(function(adjPos){
             return isInUnobstructedLine(pos, adjPos, unit.controllingPlayer);
         });
+        return adjacentToEmperor;
     }
 
     function isInUnobstructedLine(startingPos, endPos, controllingPlayer) {
         var deltaX = startingPos.x - endPos.x;
-        var deltaY = startingPos.x - endPos.y;
+        var deltaY = startingPos.y - endPos.y;
         if (deltaX !== 0 && deltaY !== 0 && Math.abs(deltaX) !== Math.abs(deltaY)) {
             return false;
         }
         var max = Math.max(deltaX, deltaY);
-        var xMod = deltaX < 0 ? 1 : -1;
-        var yMod = deltaY < 0 ? 1 : -1;
+        var xMod = deltaX < 0 ? 1 : deltaX === 0 ? 0 : -1;
+        var yMod = deltaY < 0 ? 1 : deltaY === 0 ? 0 : -1;
         for (var i = 1; i < max; i++) {
             var checkPos = {x: startingPos.x + (xMod * i), y: startingPos.y + (yMod * i)};
             var unit = getUnitByPlace(checkPos);
@@ -181,4 +184,84 @@ function getPossibleMoves(unit) {
             return concatMoves(merchantMoves, additionalMerchantMoves);
     }
     throw "Piece not implemented";
+}
+
+function selectBoardUnit(id) {
+    if (!id) {
+        return;
+    }
+    var unit = getUnitByPlace(id);
+    if (!unit || !unit.pos || unit.controllingPlayer !== currentPlayer) {
+        return;
+    }
+    selectedUnit = unit;
+    var possibleMoves = getPossibleMoves(unit);
+    placingIds = possibleMoves.standard.map(getId);
+    canBeTakenIds = possibleMoves.taking.map(getId);
+    renderCycle();
+    currentClickFunc = moveBoardUnit;
+}
+
+function moveBoardUnit(id) {
+    if (!id || !selectedUnit) {
+        return;
+    }
+    var placingId = placingIds.find(function(pId) {return idEquals(pId, id);});
+    var takingId = canBeTakenIds.find(function(tId) {return idEquals(tId, id);});
+    if (!placingId && !takingId) {
+        return;
+    }
+    if (takingId) {
+        gameOver = takeId(id);
+    } else {
+        moveId(id);
+    }
+
+    selectedUnit = null;
+    placingIds = [];
+    canBeTakenIds = [];
+    if (gameOver) {
+        currentClickFunc = null;
+        renderCycle();
+        setWinningMessage(currentPlayer);
+    } else {
+        addTurn();
+        setNextPlayer();
+        renderCycle();
+        currentClickFunc = selectBoardUnit;
+    }
+}
+
+function isBeaten(losingPlayer) {
+    if (!units.some(function(unit) {
+        return unit.type === unitTypes.emperor 
+            && unit.pos 
+            && unit.controllingPlayer === losingPlayer; 
+    })) {
+        return true;
+    }
+    if (!units.some(function(unit){
+        return unit.type !== unitTypes.emperor 
+        && unit.pos 
+        && unit.controllingPlayer === losingPlayer; 
+    })) {
+        return true;
+    }
+    return false;
+}
+
+function takeId(id) {
+    var takenUnit = getUnitByPlace(id);
+    var losingPlayer= takenUnit.controllingPlayer;
+    if (selectedUnit.type === unitTypes.thief) {
+        takenUnit.controllingPlayer = currentPlayer;
+        return;
+    }
+    selectedUnit.pos = getPos(id);
+    takenUnit.pos = null;
+    return isBeaten(losingPlayer);
+}
+
+function moveId(id) {
+    selectedUnit.pos = getPos(id);
 }

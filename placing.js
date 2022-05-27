@@ -31,13 +31,16 @@ function placeStartingUnit(id) {
     var allHavePos = units.every(function (u) {return u.pos;});
     if (allHavePos) {
         isInPlacingPhase = false;
-		currentClickFunc = function() {};
+		currentClickFunc = selectBoardUnit;
     } else {
         currentClickFunc = selectStartingUnit;
     }
 }
 
 function canPlaceStartingUnit(id) {
+	if (!isId) {
+		return false;
+	}
 	var selectedField = getUnitByPlace(id);
 	if (selectedField) {
 		return false;

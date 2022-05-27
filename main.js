@@ -14,3 +14,28 @@ function onCellClick(id) {
 	}
 	currentClickFunc(id);
 }
+
+function unselectUnit() {
+	selectedUnit = null;
+	placingIds = [];
+	canBeTakenIds = [];
+	renderCycle();
+	currentClickFunc = isInPlacingPhase ? selectStartingUnit : selectBoardUnit;
+}
+
+//Debugging
+function placeRandom() {
+	turnNumber = playerCount;
+	for (var i = 0; i < units.length; i++) {
+		var id;
+		do {
+			var x = Math.floor(Math.random() * fieldDimensions);
+			var y = Math.floor(Math.random() * fieldDimensions);
+			id = getId(x, y);
+		} while(!isId(id) || !canPlaceStartingUnit(id))
+		units[i].pos = getPos(id);
+	}
+	isInPlacingPhase = false;
+	currentClickFunc = selectBoardUnit;
+	renderCycle();
+}

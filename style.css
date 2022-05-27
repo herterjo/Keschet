@@ -1,5 +1,5 @@
 #playingField td {
-	padding: 45px;
+	padding: var(--empty-padding);
 }
 
 :root {
@@ -9,6 +9,8 @@
 	--p-0-selected-color: red;
 	--p-1-selected-color: blue;
 	--can-be-taken-color: darkviolet;
+	--empty-padding: 40px;
+	--occupied-padding: 5px;
 }
 
 .border td{
@@ -18,12 +20,12 @@
 
 .background-p-0 {
 	background-color: var(--p-0-color);
-	padding: 10px !important;
+	padding: var(--occupied-padding) !important;
 }
 
 .background-p-1 {
 	background-color: var(--p-1-color);
-	padding: 10px !important;
+	padding: var(--occupied-padding) !important;
 }
 
 .display-flex {
@@ -31,19 +33,20 @@
 }
 
 .home-field {
-	padding: 10px;
+	padding: var(--occupied-padding);
 }
 
 td {
 	text-align: center;
+	font-weight: bold;
 }
 
 .figures-p-0-container {
-	margin-right: 10px;
+	margin-right: var(--occupied-padding);
 }
 
 .figures-p-1-container {
-	margin-left: 10px;
+	margin-left: var(--occupied-padding);
 }
 
 .can-choose {
@@ -56,14 +59,49 @@ td {
 }
 
 .selected-p-0 {
+	padding: var(--occupied-padding) !important;
 	background-color: var(--p-0-selected-color);
 }
 
 .selected-p-1 {
+	padding: var(--occupied-padding) !important;
 	background-color: var(--p-1-selected-color);
 }
 
 .can-be-taken {
+	padding: var(--occupied-padding) !important;
 	background-color: var(--can-be-taken-color);
 	cursor: pointer;
+}
+
+.hidden {
+	display: none;
+}
+
+#title {
+	font-size: 30px;
+	font-weight: bolder;
+}
+
+#unselectUnit {
+	padding: 10px;
+	font-size: 20px;
+	cursor: pointer;
+}
+
+#playerContainer {
+	display: block;
+}
+
+#turnContainer {
+	display: block;
+}
+
+#selectedUnitContainer {
+	display: block;
+}
+
+#playingFieldContainer {
+	table-layout: fixed;
+    width: 842px;
 }

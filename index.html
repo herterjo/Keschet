@@ -8,16 +8,17 @@
 <script src="init.js"></script>
 <script src="display.js"></script>
 <script src="drawing.js"></script>
+<title>Keschet</title>
 </head>
 <body>
-<h1>Keschet</h1>
+<span id="title">Keschet</span>
 <div class="display-flex">
 <table class="figures-p-0-container">
 	<tbody class="player-figures border figures-p-0" id="figuresP0">
 	</tbody>
 </table>
 
-<table>
+<table id="playingFieldContainer">
 	<tbody id="playingField" class="border">
 	</tbody>
 </table>
@@ -27,8 +28,10 @@
 	</tbody>
 </table>
 </div>
-<h2>Player: <span id="player">1</span></h2>
-<h3>Turn: <span id="turn">1</span></h3>
-<h3>Selected unit: <span id="selectedUnit"></span></h3>
+<span id="winningMessage"></span>
+<span id="playerContainer">Player: <span id="player">1</span></span>
+<span id="turnContainer">Turn: <span id="turn">1</span></span>
+<span id="selectedUnitContainer">Selected unit: <span id="selectedUnit"></span></span>
+<button id="unselectUnit" onclick="unselectUnit()" class="hidden">Unselect unit</button>
 </body>
-</html> 
+</html>
