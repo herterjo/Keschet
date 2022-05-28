@@ -13,6 +13,8 @@ function getPossibleMoves(unit) {
     const merchantDistance = 1;
     const scholarProtectionDistance = 1;
     const merchantToEmperorDistance = 1;
+    const canJumpOverOwn = true;
+    const canJumpOverOthers = false;
     function isPosOnField(pos) {
         return pos && isCoordOnField(pos.x) && isCoordOnField(pos.y);
     }
@@ -84,13 +86,18 @@ function getPossibleMoves(unit) {
                 standardMoves.push({x: x, y: y});
                 continue;
             }
-            if (occupyingUnit.controllingPlayer === controllingPlayer) {
+            var occupiedByOther = occupyingUnit.controllingPlayer !== controllingPlayer;
+            if (occupiedByOther && 
+                !isProtected(x, y, occupyingUnit.controllingPlayer)) {
+                takingMoves.push({x: x, y: y});
                 break;
             }
-            if (!isProtected(x, y, occupyingUnit.controllingPlayer)) {
-                takingMoves.push({x: x, y: y});
+            if (!occupiedByOther && !canJumpOverOwn) {
+                break;
             }
-            break;
+            if (occupiedByOther && !canJumpOverOthers) {
+                break;
+            }
         }
         return {standard: standardMoves, taking: takingMoves};
     }
@@ -98,13 +105,13 @@ function getPossibleMoves(unit) {
     function isProtected(x, y, player) {
         for (let i = 1; i <= scholarProtectionDistance; i++) {
             var isDistanceProtected = isOwnScholar(x, y + i, player)
-                && isOwnScholar(x, y - i, player)
-                && isOwnScholar(x + i, y, player)
-                && isOwnScholar(x - i, y, player)
-                && isOwnScholar(x + i, y + i, player)
-                && isOwnScholar(x - i, y - i, player)
-                && isOwnScholar(x + i, y - i, player)
-                && isOwnScholar(x - i, y + i, player);
+                || isOwnScholar(x, y - i, player)
+                || isOwnScholar(x + i, y, player)
+                || isOwnScholar(x - i, y, player)
+                || isOwnScholar(x + i, y + i, player)
+                || isOwnScholar(x - i, y - i, player)
+                || isOwnScholar(x + i, y - i, player)
+                || isOwnScholar(x - i, y + i, player);
             if (isDistanceProtected) {
                 return true;
             }
