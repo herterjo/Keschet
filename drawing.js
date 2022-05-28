@@ -3,18 +3,6 @@ var canBeTakenIds = [];
 var gameOver = false;
 
 function getPossibleMoves(unit) {
-    const emperorDistance = 4;
-    const generalDistance = 10;
-    const scholarDistance = 2;
-    const archerDistance = 6;
-    const thiefDistance = 1;
-    const spearmanDistance = 2;
-    const lancerDistance = 10;
-    const merchantDistance = 1;
-    const scholarProtectionDistance = 1;
-    const merchantToEmperorDistance = 1;
-    const canJumpOverOwn = true;
-    const canJumpOverOthers = false;
     function isPosOnField(pos) {
         return pos && isCoordOnField(pos.x) && isCoordOnField(pos.y);
     }

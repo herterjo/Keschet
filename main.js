@@ -3,6 +3,7 @@ var currentClickFunc = null;
 var turnNumber = 0;
 
 window.onload = function() {
+	initUnits();
 	initField();
 	renderCycle();
 	currentClickFunc = selectStartingUnit;
