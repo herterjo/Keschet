@@ -1,7 +1,3 @@
-#playingField td {
-	padding: var(--empty-padding);
-}
-
 :root {
 	--p-0-color: indianred;
 	--p-1-color: lightblue;
@@ -9,8 +5,13 @@
 	--p-0-selected-color: red;
 	--p-1-selected-color: blue;
 	--can-be-taken-color: darkviolet;
-	--empty-padding: 40px;
-	--occupied-padding: 5px;
+	--playing-field-cell-size: 80px;
+	--home-field-margin: 5px;
+}
+
+#playingField td {
+	width: var(--playing-field-cell-size);
+    height: var(--playing-field-cell-size);
 }
 
 .border td{
@@ -20,12 +21,10 @@
 
 .background-p-0 {
 	background-color: var(--p-0-color);
-	padding: var(--occupied-padding) !important;
 }
 
 .background-p-1 {
 	background-color: var(--p-1-color);
-	padding: var(--occupied-padding) !important;
 }
 
 .display-flex {
@@ -33,7 +32,7 @@
 }
 
 .home-field {
-	padding: var(--occupied-padding);
+	padding: var(--home-field-margin);
 }
 
 td {
@@ -42,11 +41,11 @@ td {
 }
 
 .figures-p-0-container {
-	margin-right: var(--occupied-padding);
+	margin-right: var(--home-field-margin);
 }
 
 .figures-p-1-container {
-	margin-left: var(--occupied-padding);
+	margin-left: var(--home-field-margin);
 }
 
 .can-choose {
@@ -59,17 +58,14 @@ td {
 }
 
 .selected-p-0 {
-	padding: var(--occupied-padding) !important;
 	background-color: var(--p-0-selected-color);
 }
 
 .selected-p-1 {
-	padding: var(--occupied-padding) !important;
 	background-color: var(--p-1-selected-color);
 }
 
 .can-be-taken {
-	padding: var(--occupied-padding) !important;
 	background-color: var(--can-be-taken-color);
 	cursor: pointer;
 }
